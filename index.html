@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposition de Mariage</title>
+    <style>
+        /* Styles pour un fond romantique et une mise en page centrée */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffecd2); /* Dégradé rose romantique */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #d63384; /* Rose foncé pour le texte */
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative; /* Pour permettre le déplacement du bouton "Non" */
+        }
+
+        #yesBtn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            background-color: #218838;
+        }
+
+        #noBtn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        #noBtn:hover {
+            background-color: #c82333;
+        }
+
+        /* Style pour le message d'esquive */
+        #message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1000;
+        }
+
+        #message.show {
+            opacity: 1;
+        }
+
+        /* Style pour le message de succès */
+        #successMessage {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #28a745;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-size: 1.5em;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1000;
+        }
+
+        #successMessage.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tu veux me marier ?</h1>
+        <div class="buttons">
+            <button id="yesBtn">Oui</button>
+            <button id="noBtn">Non</button>
+        </div>
+    </div>
+
+    <!-- Message d'esquive pour le bouton "Non" -->
+    <div id="message">Arrête d’essayer de dire non 😄</div>
+
+    <!-- Message de succès pour le bouton "Oui" -->
+    <div id="successMessage">💍 Elle a dit OUI !</div>
+
+    <script>
+        // Récupération des éléments
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const message = document.getElementById('message');
+        const successMessage = document.getElementById('successMessage');
+
+        // Fonction pour déplacer le bouton "Non" à une position aléatoire
+        function moveNoBtn() {
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            // Calculer une position aléatoire dans la fenêtre, en évitant les bords
+            const maxX = window.innerWidth - btnRect.width - 20;
+            const maxY = window.innerHeight - btnRect.height - 20;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            // Appliquer la position avec une transition fluide
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transition = 'all 0.3s ease'; // Animation fluide
+
+            // Afficher le message d'esquive
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 2000); // Le message disparaît après 2 secondes
+        }
+
+        // Événement pour le bouton "Non" : déplacer sur hover (pour rendre le clic impossible)
+        noBtn.addEventListener('mouseover', moveNoBtn);
+
+        // Événement pour le bouton "Oui" : afficher le message de succès
+        yesBtn.addEventListener('click', function() {
+            successMessage.classList.add('show');
+            // Optionnel : masquer les boutons après le clic
+            document.querySelector('.buttons').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
